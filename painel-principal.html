@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HACK HYPE - Painel Principal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Adicionando partículas flutuantes de fundo */
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(0, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            border-bottom: 2px solid #00ffff;
+            /* Adicionando animação de entrada do header */
+            animation: slideInFromTop 0.8s ease-out;
+        }
+
+        @keyframes slideInFromTop {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            /* Removed circular border and background, keeping only the image */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #000;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            /* Removed border-radius to show original logo shape */
+            filter: drop-shadow(0 0 3px #00ffff);
+        }
+
+        /* Removed logoGlow animation since we're not using circular border */
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            cursor: pointer;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Adicionando efeito de onda nos botões do menu */
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(0, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.5s ease;
+            z-index: -1;
+        }
+
+        .nav-item:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: linear-gradient(45deg, #00ffff, #0080ff);
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .content-section {
+            display: none;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Home Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0 2rem 0;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #00ffff, #0080ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            /* Adicionando animação de fade in simples */
+            animation: fadeInTitle 1.2s ease-out;
+        }
+
+        @keyframes fadeInTitle {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: #cccccc;
+            /* Adicionando animação de fade in com delay */
+            animation: fadeInUp 1s ease 1.5s both;
+        }
+
+        /* Nosso Time Section */
+        .team-section {
+            margin: 4rem 0;
+        }
+
+        .team-toggle-btn {
+            display: block;
+            width: 300px;
+            margin: 0 auto 2rem auto;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(45deg, #00ffff, #0080ff);
+            color: #000;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Adicionando efeito de brilho deslizante no botão */
+        .team-toggle-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .team-toggle-btn:hover::after {
+            left: 100%;
+        }
+
+        .team-toggle-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.5);
+            background: linear-gradient(45deg, #0080ff, #00ffff);
+        }
+
+        .team-btn-text {
+            margin-right: 1rem;
+        }
+
+        .team-btn-arrow {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .team-btn-arrow.rotated {
+            transform: rotate(180deg);
+        }
+
+        .team-container {
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .team-container.show {
+            animation: slideDown 0.5s ease forwards;
+        }
+
+        .team-container.hide {
+            animation: slideUp 0.5s ease forwards;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                max-height: 1000px;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 1;
+                max-height: 1000px;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                max-height: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #00ffff, #0080ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* About, Contact, Questions Sections */
+        .info-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            margin: 2rem 0;
+            /* Adicionando animação de borda pulsante */
+            animation: borderPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes borderPulse {
+            0%, 100% {
+                border-color: rgba(0, 255, 255, 0.3);
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+            }
+            50% {
+                border-color: rgba(0, 255, 255, 0.6);
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            }
+        }
+
+        .info-box h2 {
+            color: #00ffff;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .info-box p {
+            line-height: 1.6;
+            color: #cccccc;
+            margin-bottom: 1rem;
+        }
+
+        /* Shortcuts Section */
+        .shortcuts-section {
+            margin: 3rem 0 4rem 0;
+        }
+
+        .shortcuts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .shortcut-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Adicionando efeito de partículas nos cards */
+        .shortcut-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
+            transform: scale(0);
+            transition: transform 0.5s ease;
+            z-index: -1;
+        }
+
+        .shortcut-card:hover::before {
+            transform: scale(1);
+        }
+
+        .shortcut-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 255, 255, 0.4);
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+        }
+
+        .shortcut-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+            /* Adicionando animação de rotação no hover */
+            transition: transform 0.3s ease;
+        }
+
+        .shortcut-card:hover .shortcut-icon {
+            transform: rotateY(360deg);
+        }
+
+        .shortcut-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #00ffff;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .shortcut-desc {
+            font-size: 0.9rem;
+            color: #cccccc;
+            line-height: 1.4;
+        }
+
+        /* Team Members */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+            /* Increased bottom padding to prevent cutting off last members */
+            padding-bottom: 6rem;
+        }
+
+        .team-member {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            /* Simplified card height and layout */
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        /* Adicionando efeito hover nos cards dos membros */
+        .team-member::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .team-member:hover::after {
+            left: 100%;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+            border-color: #00ffff;
+        }
+
+        .member-photo {
+            width: 92px;
+            height: 92px;
+            border-radius: 12px;
+            margin: 0 auto 1rem auto;
+            border: 3px solid #00ffff;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #00ffff, #0080ff);
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover .member-photo {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+        }
+
+        .member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 9px;
+        }
+
+        .member-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #00ffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-role {
+            font-size: 1rem;
+            color: #ffffff;
+            /* Removed margin-bottom to simplify card */
+            margin-bottom: 0;
+            font-weight: 600;
+        }
+
+        /* Removed member-description from cards - only shows in modal */
+
+        /* FAQ Section */
+        .faq-item {
+            margin-bottom: 1rem;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(0, 255, 255, 0.6);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .faq-question {
+            width: 100%;
+            background: rgba(0, 255, 255, 0.1);
+            border: none;
+            padding: 1.5rem;
+            text-align: left;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(0, 255, 255, 0.2);
+            color: #00ffff;
+        }
+
+        .faq-arrow {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            color: #00ffff;
+        }
+
+        .faq-arrow.rotated {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+        }
+
+        .faq-answer.show {
+            max-height: 500px;
+            padding: 1.5rem;
+        }
+
+        .faq-answer p {
+            margin: 0;
+            line-height: 1.6;
+            color: #cccccc;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            /* Improved mobile header and navigation */
+            .header {
+                padding: 0.8rem 1rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .logo {
+                width: 50px;
+                height: 50px;
+                font-size: 1rem;
+            }
+            
+            .nav-menu {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+            
+            .nav-item {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+                letter-spacing: 0.5px;
+            }
+            
+            /* Adjusted main content spacing for mobile */
+            .main-content {
+                margin-top: 140px;
+                padding: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+                line-height: 1.2;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+                margin: 1rem 0 2rem 0;
+            }
+
+            /* Better mobile grid layouts */
+            .shortcuts-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 1rem;
+            }
+            
+            .shortcut-card {
+                padding: 1.5rem 1rem;
+            }
+            
+            .shortcut-card h3 {
+                font-size: 1rem;
+            }
+            
+            .shortcut-card p {
+                font-size: 0.8rem;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                /* Increased mobile bottom padding to prevent cutting */
+                padding-bottom: 4rem;
+            }
+            
+            .team-member {
+                min-height: 250px;
+                padding: 1.5rem;
+            }
+            
+            /* Mobile-friendly info boxes */
+            .info-box {
+                padding: 1.5rem;
+                margin: 1rem 0;
+            }
+            
+            .info-box h3 {
+                font-size: 1.3rem;
+            }
+            
+            /* FAQ improvements for mobile */
+            .faq-item {
+                margin-bottom: 1rem;
+            }
+            
+            .faq-question {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            
+            .faq-answer {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Added tablet-specific responsive rules */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .shortcuts-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+        }
+        
+        /* Large screen optimizations */
+        @media (min-width: 1400px) {
+            .shortcuts-grid {
+                grid-template-columns: repeat(4, 1fr);
+                max-width: 1200px;
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 1200px;
+            }
+        }
+
+        /* Adding modal styles for team member details */
+        .member-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 3000;
+            backdrop-filter: blur(10px);
+        }
+
+        .member-modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .member-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .member-close-btn {
+            background: none;
+            border: none;
+            color: #00ffff;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .member-close-btn:hover {
+            transform: scale(1.2);
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        .member-modal-body {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .member-modal-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 15px;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            /* Fixed image container to prevent cropping */
+            border: 2px solid #00ffff;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .member-modal-photo img {
+            width: 100%;
+            height: 100%;
+            /* Changed from cover to contain to show full image without cropping */
+            object-fit: contain;
+            object-position: center;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .member-modal-info {
+            flex: 1;
+        }
+
+        .member-modal-name {
+            font-size: 1.8rem;
+            color: #00ffff;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .member-modal-role {
+            color: #cccccc;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .member-modal-description {
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: #e0e0e0;
+        }
+
+        .member-modal-skills {
+            margin-bottom: 1.5rem;
+        }
+
+        .member-modal-skills h4 {
+            color: #00ffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-modal-skills ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .member-modal-skills li {
+            background: rgba(0, 255, 255, 0.1);
+            padding: 0.3rem 0.8rem;
+            margin: 0.3rem 0.3rem 0.3rem 0;
+            border-radius: 15px;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .member-modal-body {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+            
+            .member-modal-photo {
+                width: 150px;
+                height: 150px;
+                margin: 0 auto;
+                /* Ensuring mobile modal photo also shows full image */
+                border: 2px solid #00ffff;
+            }
+            
+            .member-modal-name {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Contact Section */
+        .contact-section {
+            margin: 4rem 0;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            background: rgba(0, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.3);
+        }
+
+        .contact-item h3 {
+            color: #00ffff;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .contact-item p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        /* Added contact field comments for easy editing */
+        .contact-item a {
+            color: #00ffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Adicionando partículas flutuantes -->
+    <div class="floating-particles" id="particles"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <!-- Replaced text logo with image logo -->
+            <div class="logo">
+                <img src="https://i.ibb.co/W4j1VK9n/logo-hack-hype-Photoroom.png" alt="HACK HYPE Logo">
+                <!-- COMENTÁRIO: Para alterar a logo, substitua o link acima -->
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item active" onclick="showSection('home')">HOME</li>
+                <li class="nav-item" onclick="showSection('sobre')">SOBRE</li>
+                <li class="nav-item" onclick="showSection('contato')">CONTATO</li>
+                <li class="nav-item" onclick="showSection('perguntas')">PERGUNTAS</li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="content-section active">
+            <div class="hero">
+                <h1>HACK HYPE</h1>
+                <p>Hackeando Limites, Hypando Possibilidades!</p>
+            </div>
+
+            <!-- Shortcuts Section -->
+            <div class="shortcuts-section">
+                <h2 class="section-title">ATALHOS RÁPIDOS</h2>
+                <div class="shortcuts-grid">
+                    <a href="videos.html" class="shortcut-card">
+                        <span class="shortcut-icon">🎥</span>
+                        <div class="shortcut-title">Vídeos</div>
+                        <div class="shortcut-desc">Tutoriais e aulas em vídeo</div>
+                    </a>
+                    <a href="livros.html" class="shortcut-card">
+                        <span class="shortcut-icon">📚</span>
+                        <div class="shortcut-title">Livros</div>
+                        <div class="shortcut-desc">Bibliografia recomendada</div>
+                    </a>
+                    <a href="codigos-ajuda.html" class="shortcut-card">
+                        <span class="shortcut-icon">💻</span>
+                        <div class="shortcut-title">Códigos</div>
+                        <div class="shortcut-desc">Exemplos e soluções práticas</div>
+                    </a>
+                    <a href="#" class="shortcut-card" target="_blank">
+                        <span class="shortcut-icon">🔍</span>
+                        <div class="shortcut-title">Curiosidades</div>
+                        <div class="shortcut-desc">Fatos interessantes da área</div>
+                    </a>
+                    <!-- Removidos os atalhos "Mercado de Trabalho" e "Estatísticas" -->
+                    <a href="#" class="shortcut-card" target="_blank">
+                        <span class="shortcut-icon">🚀</span>
+                        <div class="shortcut-title">Por Onde Começar</div>
+                        <div class="shortcut-desc">Guia para iniciantes</div>
+                    </a>
+                    <a href="#" class="shortcut-card" target="_blank">
+                        <span class="shortcut-icon">🛠️</span>
+                        <div class="shortcut-title">Ferramentas</div>
+                        <div class="shortcut-desc">Software e recursos úteis</div>
+                    </a>
+                    <a href="#" class="shortcut-card" target="_blank">
+                        <span class="shortcut-icon">🎯</span>
+                        <div class="shortcut-title">Projetos Práticos</div>
+                        <div class="shortcut-desc">Exercícios e desafios</div>
+                    </a>
+                    <a href="#" class="shortcut-card" target="_blank">
+                        <span class="shortcut-icon">🌐</span>
+                        <div class="shortcut-title">Links Úteis</div>
+                        <div class="shortcut-desc">Sites e recursos externos</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Nosso Time -->
+            <div class="team-section">
+                <!-- Substituindo título fixo por botão clicável -->
+                <button class="team-toggle-btn" onclick="toggleTeam()">
+                    <span class="team-btn-text">NOSSO TIME</span>
+                    <span class="team-btn-arrow" id="teamArrow">▼</span>
+                </button>
+                
+                <!-- Adicionando container com display none inicial -->
+                <div class="team-container" id="teamContainer" style="display: none;">
+                    <div class="team-grid">
+                        <!-- MEMBRO 1: KAIC MARÇAL -->
+                        <div class="team-member" onclick="openMemberModal('kaic')">
+                            <div class="member-photo">
+                                <img src="https://i.ibb.co/2Y1Mn4Yy/kaic.jpg" alt="Kaic Marçal">  <!-- Para trocar imagem: substitua o link aqui -->
+                            </div>
+                            <div class="member-name">KAIC MARÇAL</div>
+                            <div class="member-role">Desenvolvedor</div>
+                            <!-- Removed description from card - only shows in modal -->
+                        </div>
+
+                        <!-- MEMBRO 2: MICAL LEITE -->
+                        <div class="team-member" onclick="openMemberModal('mical')">
+                            <div class="member-photo">
+                                <img src="https://i.ibb.co/vgsLjMF/mical.jpg" alt="Mical Leite">  <!-- Para trocar imagem: substitua o link aqui -->
+                            </div>
+                            <div class="member-name">MICAL LEITE</div>
+                            <div class="member-role">Analista de Sistemas</div>
+                        </div>
+
+                        <!-- MEMBRO 3: ICARO RIBEIRO BORGES FONSECA -->
+                        <div class="team-member" onclick="openMemberModal('icaro')">
+                            <div class="member-photo">
+                                <img src="https://i.ibb.co/Rp1VDzRQ/icaro.jpg" alt="Icaro Ribeiro Borges Fonseca">  <!-- Para trocar imagem: substitua o link aqui -->
+                            </div>
+                            <div class="member-name">ICARO RIBEIRO BORGES FONSECA</div>
+                            <div class="member-role">Desenvolvedor Full Stack</div>
+                        </div>
+
+                        <!-- MEMBRO 4: RIHAN CAMILO -->
+                        <div class="team-member" onclick="openMemberModal('rihan')">
+                            <div class="member-photo">
+                                <img src="https://i.ibb.co/zhbBWq1M/rian-camilo.jpg" alt="Rihan Camilo">  <!-- Para trocar imagem: substitua o link aqui -->
+                            </div>
+                            <div class="member-name">RIHAN CAMILO</div>
+                            <div class="member-role">Gerente de Projetos</div>
+                        </div>
+
+                        <!-- MEMBRO 5: ADICIONE AQUI -->
+                        <div class="team-member" onclick="openMemberModal('membro5')">
+                            <div class="member-photo">
+                                <img src="/placeholder.svg?height=92&width=92" alt="Membro 5">  <!-- Para trocar imagem: substitua o link aqui -->
+                            </div>
+                            <div class="member-name">[NOME DO MEMBRO 5]</div>  <!-- Para editar: substitua o nome aqui -->
+                            <div class="member-role">[FUNÇÃO/CARGO]</div>  <!-- Para editar: substitua a função aqui -->
+                        </div>
+
+                        <!-- MEMBRO 6: ADICIONE AQUI -->
+                        <div class="team-member" onclick="openMemberModal('membro6')">
+                            <div class="member-photo">
+                                <img src="/placeholder.svg?height=92&width=92" alt="Membro 6">  <!-- Para trocar imagem: substitua o link aqui -->
+                            </div>
+                            <div class="member-name">[NOME DO MEMBRO 6]</div>  <!-- Para editar: substitua o nome aqui -->
+                            <div class="member-role">[FUNÇÃO/CARGO]</div>  <!-- Para editar: substitua a função aqui -->
+                        </div>
+
+                        <!-- MEMBRO 7: ADICIONE AQUI -->
+                        <div class="team-member" onclick="openMemberModal('membro7')">
+                            <div class="member-photo">
+                                <img src="/placeholder.svg?height=92&width=92" alt="Membro 7">  <!-- Para trocar imagem: substitua o link aqui -->
+                            </div>
+                            <div class="member-name">[NOME DO MEMBRO 7]</div>  <!-- Para editar: substitua o nome aqui -->
+                            <div class="member-role">[FUNÇÃO/CARGO]</div>  <!-- Para editar: substitua a função aqui -->
+                        </div>
+
+                        <!-- MEMBRO 8: ADICIONE AQUI -->
+                        <div class="team-member" onclick="openMemberModal('membro8')">
+                            <div class="member-photo">
+                                <img src="/placeholder.svg?height=92&width=92" alt="Membro 8">  <!-- Para trocar imagem: substitua o link aqui -->
+                            </div>
+                            <div class="member-name">[NOME DO MEMBRO 8]</div>  <!-- Para editar: substitua o nome aqui -->
+                            <div class="member-role">[FUNÇÃO/CARGO]</div>  <!-- Para editar: substitua a função aqui -->
+                        </div>
+
+                        <!-- Added 9 more team members to reach total of 13 -->
+                        <!-- MEMBRO 9: ADICIONE AQUI -->
+                        <div class="team-member" onclick="openMemberModal('membro9')">
+                            <div class="member-photo">
+                                <img src="/placeholder.svg?height=92&width=92" alt="Membro 9">  <!-- Para trocar imagem: substitua o link aqui -->
+                            </div>
+                            <div class="member-name">[NOME DO MEMBRO 9]</div>  <!-- Para editar: substitua o nome aqui -->
+                            <div class="member-role">[FUNÇÃO/CARGO]</div>  <!-- Para editar: substitua a função aqui -->
+                        </div>
+
+                        <!-- MEMBRO 10: ADICIONE AQUI -->
+                        <div class="team-member" onclick="openMemberModal('membro10')">
+                            <div class="member-photo">
+                                <img src="/placeholder.svg?height=92&width=92" alt="Membro 10">  <!-- Para trocar imagem: substitua o link aqui -->
+                            </div>
+                            <div class="member-name">[NOME DO MEMBRO 10]</div>  <!-- Para editar: substitua o nome aqui -->
+                            <div class="member-role">[FUNÇÃO/CARGO]</div>  <!-- Para editar: substitua a função aqui -->
+                        </div>
+
+                        <!-- MEMBRO 11: ADICIONE AQUI -->
+                        <div class="team-member" onclick="openMemberModal('membro11')">
+                            <div class="member-photo">
+                                <img src="/placeholder.svg?height=92&width=92" alt="Membro 11">  <!-- Para trocar imagem: substitua o link aqui -->
+                            </div>
+                            <div class="member-name">[NOME DO MEMBRO 11]</div>  <!-- Para editar: substitua o nome aqui -->
+                            <div class="member-role">[FUNÇÃO/CARGO]</div>  <!-- Para editar: substitua a função aqui -->
+                        </div>
+
+                        <!-- MEMBRO 12: ADICIONE AQUI -->
+                        <div class="team-member" onclick="openMemberModal('membro12')">
+                            <div class="member-photo">
+                                <img src="/placeholder.svg?height=92&width=92" alt="Membro 12">  <!-- Para trocar imagem: substitua o link aqui -->
+                            </div>
+                            <div class="member-name">[NOME DO MEMBRO 12]</div>  <!-- Para editar: substitua o nome aqui -->
+                            <div class="member-role">[FUNÇÃO/CARGO]</div>  <!-- Para editar: substitua a função aqui -->
+                        </div>
+
+                        <!-- MEMBRO 13: ADICIONE AQUI -->
+                        <div class="team-member" onclick="openMemberModal('membro13')">
+                            <div class="member-photo">
+                                <img src="/placeholder.svg?height=92&width=92" alt="Membro 13">  <!-- Para trocar imagem: substitua o link aqui -->
+                            </div>
+                            <div class="member-name">[NOME DO MEMBRO 13]</div>  <!-- Para editar: substitua o nome aqui -->
+                            <div class="member-role">[FUNÇÃO/CARGO]</div>  <!-- Para editar: substitua a função aqui -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sobre Section -->
+        <section id="sobre" class="content-section">
+            <div class="info-box">
+                <!-- Expandindo conteúdo da seção sobre com informações detalhadas -->
+                <h2>Sobre o Curso de Sistemas de Informação</h2>
+                <p><strong>Formação Completa e Inovadora:</strong> O curso de Sistemas de Informação forma profissionais capazes de analisar, projetar, implementar e gerenciar sistemas de informação em organizações de diversos setores. Nossa abordagem combina conhecimentos técnicos sólidos com visão estratégica de negócios.</p>
+                
+                <p><strong>Grade Curricular Abrangente:</strong> O currículo inclui disciplinas como Programação (Java, Python, JavaScript), Banco de Dados, Engenharia de Software, Redes de Computadores, Segurança da Informação, Gestão de Projetos, Análise de Sistemas, Inteligência Artificial, Machine Learning e muito mais.</p>
+                
+                <p><strong>Metodologia de Ensino:</strong> Utilizamos metodologias ativas de aprendizagem, projetos práticos em parceria com empresas, laboratórios equipados com tecnologia de ponta, e um corpo docente formado por mestres e doutores com experiência no mercado.</p>
+                
+                <p><strong>Áreas de Atuação:</strong> Nossos egressos trabalham como Desenvolvedores Full Stack, Analistas de Sistemas, Gerentes de Projetos de TI, Consultores em Tecnologia, Arquitetos de Software, Especialistas em Segurança da Informação, Analistas de Dados, Product Owners, e muito mais.</p>
+                
+                <p><strong>Diferenciais do Curso:</strong> Parcerias com grandes empresas de tecnologia, programa de estágios estruturado, incubadora de startups, eventos técnicos regulares, certificações internacionais, e índice de empregabilidade de 95% em até 6 meses após a formatura.</p>
+                
+                <p><strong>Infraestrutura:</strong> Campus moderno com laboratórios de última geração, biblioteca especializada, auditórios equipados, espaços de coworking para projetos estudantis, e acesso a plataformas de desenvolvimento em nuvem.</p>
+            </div>
+        </section>
+
+        <!-- Contato Section -->
+        <section id="contato" class="contact-section">
+            <h2 class="section-title">Entre em Contato</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h3>📧 Email</h3>
+                    <!-- COMENTÁRIO: Substitua o email abaixo pelo email oficial do curso -->
+                    <p><a href="mailto:contato@hackhype.edu.br">contato@hackhype.edu.br</a></p>
+                </div>
+                <div class="contact-item">
+                    <h3>📱 WhatsApp</h3>
+                    <!-- COMENTÁRIO: Substitua o número abaixo pelo WhatsApp oficial -->
+                    <p><a href="https://wa.me/5511999999999" target="_blank">(11) 99999-9999</a></p>
+                </div>
+                <div class="contact-item">
+                    <h3>📍 Localização</h3>
+                    <!-- COMENTÁRIO: Substitua o endereço abaixo pela localização real do curso -->
+                    <p>Campus Universitário<br>Rua dos Sistemas, 123<br>São Paulo - SP</p>
+                </div>
+                <div class="contact-item">
+                    <h3>🌐 Redes Sociais</h3>
+                    <!-- COMENTÁRIO: Substitua os links abaixo pelas redes sociais oficiais -->
+                    <p>
+                        <a href="https://instagram.com/hackhype" target="_blank">Instagram</a><br>
+                        <a href="https://linkedin.com/company/hackhype" target="_blank">LinkedIn</a><br>
+                        <a href="https://github.com/hackhype" target="_blank">GitHub</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Perguntas Section -->
+        <section id="perguntas" class="content-section">
+            <div class="info-box">
+                <!-- Implementando sistema de FAQ expansível com botões clicáveis -->
+                <h2>Perguntas Frequentes</h2>
+                
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(1)">
+                        <span>Qual a duração do curso e como é estruturado?</span>
+                        <span class="faq-arrow" id="arrow1">▼</span>
+                    </button>
+                    <div class="faq-answer" id="answer1">
+                        <p>O curso tem duração de 4 anos (8 semestres) com carga horária total de 3.200 horas. É estruturado em ciclos: Básico (1º-2º semestre), Intermediário (3º-5º semestre) e Avançado (6º-8º semestre). Inclui estágio obrigatório de 400 horas e TCC (Trabalho de Conclusão de Curso).</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(2)">
+                        <span>Quais são os pré-requisitos e processo seletivo?</span>
+                        <span class="faq-arrow" id="arrow2">▼</span>
+                    </button>
+                    <div class="faq-answer" id="answer2">
+                        <p>Pré-requisitos: Ensino médio completo. O processo seletivo inclui prova de conhecimentos gerais, redação, e entrevista. Oferecemos também ingresso via ENEM com nota mínima de 500 pontos. Há bolsas de estudo para estudantes de baixa renda e programas de financiamento estudantil.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(3)">
+                        <span>O curso é reconhecido e qual a avaliação do MEC?</span>
+                        <span class="faq-arrow" id="arrow3">▼</span>
+                    </button>
+                    <div class="faq-answer" id="answer3">
+                        <p>Sim, nosso curso possui reconhecimento do MEC com conceito 5 (nota máxima). Somos credenciados pelo INEP e participamos regularmente do ENADE. A instituição possui selo de qualidade ISO 9001 e é membro da Associação Brasileira de Mantenedoras de Ensino Superior (ABMES).</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(4)">
+                        <span>Como funcionam os estágios e oportunidades de emprego?</span>
+                        <span class="faq-arrow" id="arrow4">▼</span>
+                    </button>
+                    <div class="faq-answer" id="answer4">
+                        <p>Temos parcerias com mais de 200 empresas incluindo Google, Microsoft, IBM, Accenture, e startups locais. Oferecemos estágios remunerados a partir do 3º semestre, programa de trainee exclusivo, e centro de carreiras com orientação profissional. Taxa de empregabilidade: 95% em até 6 meses após formatura.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(5)">
+                        <span>Qual o perfil salarial e mercado de trabalho?</span>
+                        <span class="faq-arrow" id="arrow5">▼</span>
+                    </button>
+                    <div class="faq-answer" id="answer5">
+                        <p>O mercado de TI cresce 15% ao ano no Brasil. Salários iniciais: R$ 3.500-5.000 (júnior), R$ 6.000-10.000 (pleno), R$ 12.000+ (sênior). Áreas em alta: Inteligência Artificial, Cybersecurity, Cloud Computing, DevOps. Possibilidade de trabalho remoto e internacional.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(6)">
+                        <span>Quais tecnologias e linguagens são ensinadas?</span>
+                        <span class="faq-arrow" id="arrow6">▼</span>
+                    </button>
+                    <div class="faq-answer" id="answer6">
+                        <p>Linguagens: Java, Python, JavaScript, C#, SQL, HTML/CSS. Frameworks: React, Angular, Spring Boot, Django, .NET. Bancos: MySQL, PostgreSQL, MongoDB. Cloud: AWS, Azure, Google Cloud. Ferramentas: Git, Docker, Kubernetes, Jenkins. Metodologias: Scrum, Kanban, DevOps.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(7)">
+                        <span>Há possibilidade de intercâmbio e certificações?</span>
+                        <span class="faq-arrow" id="arrow7">▼</span>
+                    </button>
+                    <div class="faq-answer" id="answer7">
+                        <p>Sim! Parcerias com universidades nos EUA, Canadá, Alemanha e Portugal. Programa de dupla diplomação disponível. Certificações oferecidas: AWS Cloud Practitioner, Microsoft Azure, Google Cloud, Oracle, Cisco, CompTIA. Preparação inclusa no currículo sem custo adicional.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(8)">
+                        <span>Como é a infraestrutura e recursos disponíveis?</span>
+                        <span class="faq-arrow" id="arrow8">▼</span>
+                    </button>
+                    <div class="faq-answer" id="answer8">
+                        <p>Campus de 15.000m² com 12 laboratórios de informática, biblioteca com 50.000 volumes, auditórios para 500 pessoas, espaços maker, incubadora de startups, datacenter próprio, WiFi 6 em todo campus, e acesso gratuito a plataformas como GitHub Pro, JetBrains, Adobe Creative Suite.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Adding member modal -->
+    <div class="member-modal" id="memberModal">
+        <div class="member-modal-content">
+            <div class="member-modal-header">
+                <h2 id="memberModalTitle">Detalhes do Membro</h2>
+                <button class="member-close-btn" onclick="closeMemberModal()">&times;</button>
+            </div>
+            <div class="member-modal-body">
+                <div class="member-modal-photo">
+                    <img id="memberModalPhoto" src="/placeholder.svg" alt="Foto do membro">
+                </div>
+                <div class="member-modal-info">
+                    <div class="member-modal-name" id="memberModalName">Nome</div>
+                    <div class="member-modal-role" id="memberModalRole">Função</div>
+                    <div class="member-modal-description" id="memberModalDescription">Descrição detalhada...</div>
+                    <div class="member-modal-skills">
+                        <h4>Habilidades:</h4>
+                        <ul id="memberModalSkills">
+                            <li>Habilidade 1</li>
+                            <li>Habilidade 2</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        function showSection(sectionId) {
+            // Remove active class from all sections and nav items
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Add active class to selected section and nav item
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function initScrollAnimations() {
+            const elements = document.querySelectorAll('.team-member, .info-box, .shortcut-card');
+            
+            // Configurar estado inicial dos elementos
+            elements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'all 0.4s ease';
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        // Elemento entrando na viewport - animar para aparecer
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '50px'
+            });
+
+            // Observar todos os elementos
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        }
+
+        function toggleTeam() {
+            const teamContainer = document.getElementById('teamContainer');
+            const teamArrow = document.getElementById('teamArrow');
+            
+            if (teamContainer.style.display === 'none') {
+                // Mostrar time
+                teamContainer.style.display = 'block';
+                teamContainer.classList.remove('hide');
+                teamContainer.classList.add('show');
+                teamArrow.classList.add('rotated');
+                
+                setTimeout(() => {
+                    initScrollAnimations();
+                }, 100);
+            } else {
+                // Esconder time
+                teamContainer.classList.remove('show');
+                teamContainer.classList.add('hide');
+                teamArrow.classList.remove('rotated');
+                
+                // Aguardar animação terminar antes de esconder
+                setTimeout(() => {
+                    teamContainer.style.display = 'none';
+                }, 500);
+            }
+        }
+
+        function toggleFAQ(faqNumber) {
+            const answer = document.getElementById(`answer${faqNumber}`);
+            const arrow = document.getElementById(`arrow${faqNumber}`);
+            
+            if (answer.classList.contains('show')) {
+                // Fechar FAQ
+                answer.classList.remove('show');
+                arrow.classList.remove('rotated');
+            } else {
+                // Abrir FAQ
+                answer.classList.add('show');
+                arrow.classList.add('rotated');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            initScrollAnimations();
+        });
+        
+        window.addEventListener('resize', () => {
+            setTimeout(initScrollAnimations, 100);
+        });
+
+        const membersData = {
+            kaic: {
+                name: "KAIC MARÇAL",
+                role: "Desenvolvedor",
+                photo: "https://i.ibb.co/2Y1Mn4Yy/kaic.jpg",
+                description: "Desenvolvedor experiente com foco em tecnologias web modernas. Especialista em JavaScript, React, Node.js e desenvolvimento full-stack. Apaixonado por criar soluções inovadoras e eficientes.",
+                skills: ["JavaScript", "React", "Node.js", "Python", "Git", "MongoDB"]
+            },
+            mical: {
+                name: "MICAL LEITE",
+                role: "Analista de Sistemas",
+                photo: "https://i.ibb.co/vgsLjMF/mical.jpg",
+                description: "Analista de sistemas com vasta experiência em modelagem de processos e arquitetura de software. Especialista em análise de requisitos e design de sistemas complexos.",
+                skills: ["UML", "Análise de Requisitos", "SQL", "Java", "Arquitetura de Software", "Scrum"]
+            },
+            icaro: {
+                name: "ICARO RIBEIRO BORGES FONSECA",
+                role: "Desenvolvedor Full Stack",
+                photo: "https://i.ibb.co/Rp1VDzRQ/icaro.jpg",
+                description: "Desenvolvedor full-stack com expertise em desenvolvimento web completo. Domina tanto tecnologias front-end quanto back-end, criando aplicações robustas e escaláveis.",
+                skills: ["HTML/CSS", "JavaScript", "PHP", "MySQL", "Laravel", "Vue.js"]
+            },
+            rihan: {
+                name: "RIHAN CAMILO",
+                role: "Gerente de Projetos",
+                photo: "https://i.ibb.co/zhbBWq1M/rian-camilo.jpg",
+                description: "Gerente de projetos certificado PMP com experiência em coordenação de equipes de desenvolvimento. Especialista em metodologias ágeis e gestão de projetos de TI.",
+                skills: ["Scrum", "Kanban", "PMP", "Jira", "Gestão de Equipes", "Planejamento Estratégico"]
+            },
+            membro5: {
+                name: "[NOME DO MEMBRO 5]",
+                role: "[FUNÇÃO/CARGO]",
+                photo: "/placeholder.svg?height=200&width=200",
+                description: "[DESCRIÇÃO DETALHADA DO MEMBRO 5]",
+                skills: ["[HABILIDADE 1]", "[HABILIDADE 2]", "[HABILIDADE 3]"]
+            },
+            membro6: {
+                name: "[NOME DO MEMBRO 6]",
+                role: "[FUNÇÃO/CARGO]",
+                photo: "/placeholder.svg?height=200&width=200",
+                description: "[DESCRIÇÃO DETALHADA DO MEMBRO 6]",
+                skills: ["[HABILIDADE 1]", "[HABILIDADE 2]", "[HABILIDADE 3]"]
+            },
+            membro7: {
+                name: "[NOME DO MEMBRO 7]",
+                role: "[FUNÇÃO/CARGO]",
+                photo: "/placeholder.svg?height=200&width=200",
+                description: "[DESCRIÇÃO DETALHADA DO MEMBRO 7]",
+                skills: ["[HABILIDADE 1]", "[HABILIDADE 2]", "[HABILIDADE 3]"]
+            },
+            membro8: {
+                name: "[NOME DO MEMBRO 8]",
+                role: "[FUNÇÃO/CARGO]",
+                photo: "/placeholder.svg?height=200&width=200",
+                description: "[DESCRIÇÃO DETALHADA DO MEMBRO 8]",
+                skills: ["[HABILIDADE 1]", "[HABILIDADE 2]", "[HABILIDADE 3]"]
+            },
+            membro9: {
+                name: "[NOME DO MEMBRO 9]",
+                role: "[FUNÇÃO/CARGO]",
+                photo: "/placeholder.svg?height=200&width=200",
+                description: "[DESCRIÇÃO DETALHADA DO MEMBRO 9]",
+                skills: ["[HABILIDADE 1]", "[HABILIDADE 2]", "[HABILIDADE 3]"]
+            },
+            membro10: {
+                name: "[NOME DO MEMBRO 10]",
+                role: "[FUNÇÃO/CARGO]",
+                photo: "/placeholder.svg?height=200&width=200",
+                description: "[DESCRIÇÃO DETALHADA DO MEMBRO 10]",
+                skills: ["[HABILIDADE 1]", "[HABILIDADE 2]", "[HABILIDADE 3]"]
+            },
+            membro11: {
+                name: "[NOME DO MEMBRO 11]",
+                role: "[FUNÇÃO/CARGO]",
+                photo: "/placeholder.svg?height=200&width=200",
+                description: "[DESCRIÇÃO DETALHADA DO MEMBRO 11]",
+                skills: ["[HABILIDADE 1]", "[HABILIDADE 2]", "[HABILIDADE 3]"]
+            },
+            membro12: {
+                name: "[NOME DO MEMBRO 12]",
+                role: "[FUNÇÃO/CARGO]",
+                photo: "/placeholder.svg?height=200&width=200",
+                description: "[DESCRIÇÃO DETALHADA DO MEMBRO 12]",
+                skills: ["[HABILIDADE 1]", "[HABILIDADE 2]", "[HABILIDADE 3]"]
+            },
+            membro13: {
+                name: "[NOME DO MEMBRO 13]",
+                role: "[FUNÇÃO/CARGO]",
+                photo: "/placeholder.svg?height=200&width=200",
+                description: "[DESCRIÇÃO DETALHADA DO MEMBRO 13]",
+                skills: ["[HABILIDADE 1]", "[HABILIDADE 2]", "[HABILIDADE 3]"]
+            }
+        };
+
+        function openMemberModal(memberId) {
+            const member = membersData[memberId];
+            const modal = document.getElementById('memberModal');
+            
+            document.getElementById('memberModalName').textContent = member.name;
+            document.getElementById('memberModalRole').textContent = member.role;
+            document.getElementById('memberModalPhoto').src = member.photo;
+            document.getElementById('memberModalDescription').textContent = member.description;
+            
+            const skillsList = document.getElementById('memberModalSkills');
+            skillsList.innerHTML = '';
+            member.skills.forEach(skill => {
+                const li = document.createElement('li');
+                li.textContent = skill;
+                skillsList.appendChild(li);
+            });
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMemberModal() {
+            const modal = document.getElementById('memberModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close member modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('memberModal');
+            if (event.target === modal) {
+                closeMemberModal();
+            }
+        });
+
+        // Close member modal with ESC key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeMemberModal();
+            }
+        });
+    </script>
+</body>
+</html>
